@@ -2,6 +2,7 @@ import CustomInput from "@/components/core/inputs/CustomInput";
 import { useAuth } from "@/contexts/AuthProvider";
 import { auth } from "@/firebase.config";
 import useStorage from "@/hooks/useStorage";
+import { persistUser, signInWithGoogle } from "@/lib/firebase/auth";
 import { getResError } from "@/utils/fetch";
 import { AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
@@ -14,11 +15,9 @@ const LoginScreen = () => {
     email: "",
     password: "",
   });
-  const { storeData } = useStorage();
-  const { setToken, setUser } = useAuth();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
-  const router = useRouter();
+  // const router = useRouter();
 
   const onLogin = async () => {
     setLoading(true);
@@ -35,6 +34,7 @@ const LoginScreen = () => {
       );
       console.log("res", res);
       setError("");
+      persistUser(res.user);
       // router.push("/(tabs)");
     } catch (error) {
       const err = getResError(error);
@@ -89,7 +89,7 @@ const LoginScreen = () => {
           </View>
           {/* google + facebook  */}
           <Pressable
-            onPress={() => console.log("google")}
+            onPress={signInWithGoogle}
             className="bg-white border-2 border-gray-200 w-full flex-row  items-center justify-center mt-4 p-3 px-5 rounded-md"
           >
             <AntDesign name="google" size={24} color="black" />

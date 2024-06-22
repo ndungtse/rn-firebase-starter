@@ -1,10 +1,8 @@
 import CustomInput from "@/components/core/inputs/CustomInput";
-import { auth } from "@/firebase.config";
-import { createUser } from "@/lib/database";
-import { api, getResError } from "@/utils/fetch";
+import { createUser } from "@/lib/firebase";
+import { getResError } from "@/utils/fetch";
 import { Feather } from "@expo/vector-icons";
-import { Link, router } from "expo-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Link } from "expo-router";
 import React from "react";
 import { Alert, Pressable, ScrollView, Text, View } from "react-native";
 

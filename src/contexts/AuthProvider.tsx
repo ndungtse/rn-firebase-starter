@@ -1,10 +1,11 @@
 import AppSplashScreen from "@/components/shared/AppSplashScreen";
-import useStorage from "@/hooks/useStorage";
-import { User } from "@/lib/types/schema";
-import { getTokenData } from "@/utils";
+import { auth } from "@/firebase.config";
+import { retrieveUser } from "@/lib/firebase/auth";
+import { Profile } from "@/lib/types/schema";
 import { url } from "@/utils/fetch";
 import axios, { AxiosInstance } from "axios";
-import { router, usePathname, useSegments } from "expo-router";
+import { router, useSegments } from "expo-router";
+import { User } from "firebase/auth";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Platform } from "react-native";
 
@@ -12,10 +13,11 @@ interface AuthContextProps {
   user: User | null;
   setToken: React.Dispatch<React.SetStateAction<string | null>>;
   token: string | null;
-  ready: boolean;
+  ready?: boolean;
   setUser: React.Dispatch<React.SetStateAction<any | null>>;
   getProfile: () => Promise<void>;
   AuthApi?: AxiosInstance;
+  userProfile?: Profile;
 }
 
 const AuthContext = createContext<AuthContextProps>({
@@ -43,12 +45,9 @@ export const whiteList = [
 
 export function AuthProvider(props: AuthProviderProps) {
   const [user, setUser] = useState<any | null>(null);
-  const { getData, removeData } = useStorage();
   const [token, setToken] = useState<any>(undefined);
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(true);
   const segments = useSegments();
-  const pathname = usePathname();
-  const isAuthPage = whiteList.includes(pathname);
 
   const AuthApi = axios.create({
     baseURL: url,
@@ -71,44 +70,24 @@ export function AuthProvider(props: AuthProviderProps) {
 
   // get profile to initialize user and also validating him
   const getProfile = async () => {
-    console.log("getting profile", isAuthPage);
-    if (isAuthPage) return;
-    try {
-      const id = getTokenData(token as string)?.id;
-      console.log("id", id);
-      const res = await AuthApi.get(`/user/me`);
-      console.log("proRes", res.data);
-      const data = res.data.data;
-      setUser(data);
-    } catch (error) {
-      console.log("error", error);
-      /* uncomment line below for extra security if you think token may be fabricated */
-      // await removeData("token");
-      // replace("/login");
-    } finally {
-      setReady(true);
-    }
+    // console.log("getting profile", isAuthPage);
+    const user = await retrieveUser();
+    console.log("retrieveUser", user);
   };
 
   useEffect(() => {
-    getData("token").then((token) => {
-      console.log("token", token);
-      setToken(token);
+    console.log();
+
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      // console.log("currentUser", currentUser);
+      setUser(currentUser);
     });
+    getProfile();
+
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-    if (token === undefined) return;
-    if (!token) {
-      setReady(true);
-      return;
-    }
-    getProfile();
-  }, [token]);
-
-  useEffect(() => {
-    console.log("segments", segments);
-    if (!ready) return;
     const inAuthGroup = segments[0] === "(auth)" || segments.length === 0;
     const isLanding = segments[0] === "landing";
 
@@ -118,20 +97,20 @@ export function AuthProvider(props: AuthProviderProps) {
 
     if (
       // If the token is not signed in and the initial segment is not anything in the auth group.
-      !token &&
+      !user &&
       !inAuthGroup
     ) {
       console.log("has tkn segments", segments);
       // Redirect to the login page. For more info see https://github.com/expo/router/issues/740
       replace("/login");
-    } else if (token && inAuthGroup) {
+    } else if (user && inAuthGroup) {
       // Redirect away from the login page.
       console.log("tabs", segments);
       replace("/(tabs)");
     }
-  }, [token, segments, ready]);
+  }, [user, segments]);
 
-  if (!ready) return <AppSplashScreen />;
+  // if (!ready) return <AppSplashScreen />;
 
   return (
     <AuthContext.Provider

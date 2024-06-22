@@ -1,15 +1,13 @@
-import { Image, StyleSheet, Platform } from "react-native";
+import { Image, Platform, StyleSheet } from "react-native";
 
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import useStorage from "@/hooks/useStorage";
+import { Button } from "@ui-kitten/components";
+import { logout } from "@/lib/firebase/auth";
 
 export default function HomeScreen() {
-  // const { removeData } = useStorage();
-
-  // removeData("token");
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
@@ -24,6 +22,7 @@ export default function HomeScreen() {
         <ThemedText type="title">Welcome!</ThemedText>
         <HelloWave />
       </ThemedView>
+      <Button onPress={logout}>Logout</Button>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 1: Try it</ThemedText>
         <ThemedText>

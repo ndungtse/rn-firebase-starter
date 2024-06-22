@@ -1,20 +1,17 @@
+import { User } from "firebase/auth";
+
 export interface Timestamps {
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface User extends Timestamps {
-  id: string;
+export interface CustomUser extends User {}
+
+export interface Profile {
+  displayName: string;
   email: string;
   fullName: string;
   phoneNumber: string;
-  password: string;
-  orders: Order[];
-  cart: Cart;
-  cartId: string;
-  role: Role;
-  verified: boolean;
-  verificationToken?: string;
 }
 
 export interface Item extends Timestamps {
@@ -84,10 +81,10 @@ export interface Menu extends Timestamps {
   restaurantId: string;
 }
 
-enum Role {
-  USER = "USER",
-  ADMIN = "ADMIN",
-}
+// enum Role {
+//   USER = "USER",
+//   ADMIN = "ADMIN",
+// }
 
 enum Status {
   PENDING = "PENDING",

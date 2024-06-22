@@ -1,6 +1,17 @@
-# Welcome to your Expo app 👋
+# React Native With Firebase Starter
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This starter that uses firebase and it's features (firestore, suth,...).
+
+## To Improve
+- Persistence of use is using legacy methods, maybe you will customize it later if working onn large app
+
+May be you need to modify and remove persistence option and `getReactNativePersistence` and use custom getUser creds with saved token, or save them as stringified object
+
+```ts
+export const auth = initializeAuth(FIREBASE_APP, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});
+```
 
 ## Get started
 
