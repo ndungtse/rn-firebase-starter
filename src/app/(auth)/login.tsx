@@ -1,11 +1,9 @@
 import CustomInput from "@/components/core/inputs/CustomInput";
-import { useAuth } from "@/contexts/AuthProvider";
 import { auth } from "@/firebase.config";
-import useStorage from "@/hooks/useStorage";
 import { persistUser, signInWithGoogle } from "@/lib/firebase/auth";
 import { getResError } from "@/utils/fetch";
 import { AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React from "react";
 import { Alert, Pressable, ScrollView, Text, View } from "react-native";

@@ -45,8 +45,8 @@ const RegisterScreen = () => {
     <View className=" bg-primary flex-1 pt-20">
       <View className=" bg-white rounded-t-[30px] flex-1">
         <View className="flex flex-row mt-6 items-center justify-center">
-          <Text className=" text-4xl font-bold">Supa</Text>
-          <Text className=" text-4xl text-primary font-bold">Menu</Text>
+          <Text className=" text-4xl font-bold">Mob</Text>
+          <Text className=" text-4xl text-primary font-bold">Stater</Text>
         </View>
         <Text className="font-bold mt-8 text-center">Welcome ...</Text>
         <ScrollView className="flex-1 px-3">

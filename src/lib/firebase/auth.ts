@@ -4,9 +4,11 @@ import {
   Auth,
   GoogleAuthProvider,
   User,
+  signInWithCredential,
   signInWithCustomToken,
 } from "firebase/auth";
 import { getUser } from ".";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 export const persistUser = async (user: User) => {
   try {
@@ -85,5 +87,16 @@ const fetchUserDetails = async () => {
 };
 
 export const signInWithGoogle = async () => {
-  const provider = new GoogleAuthProvider();
+  // try {
+  //   // 1. Sign in with Google
+  //   const { idToken } = await GoogleSignin.signIn();
+  //   // 2. Create a Firebase credential with the Google ID token
+  //   const credential = GoogleAuthProvider.credential(idToken);
+  //   // 3. Sign in to Firebase with the credential
+  //   const userCredential = await signInWithCredential(auth, credential);
+  //   const user = userCredential.user;
+  //   console.log("user", user);
+  // } catch (error) {
+  //   // ... (Handle error)
+  // }
 };
