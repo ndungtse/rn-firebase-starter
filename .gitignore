@@ -22,3 +22,8 @@ bun.lockb
 
 expo-env.d.ts
 # @end expo-cli
+
+# native builds
+android
+ios
+web

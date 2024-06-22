@@ -10,7 +10,7 @@ interface Opts {
 
 export const useColorScheme = (defaultValue?: ColorSchemeName) => {
   const [colorScheme, setColorScheme] = useState<ColorSchemeName>(
-    defaultValue ?? useNativeColorScheme() ?? "light"
+    defaultValue ?? useNativeColorScheme() ?? "light",
   );
 
   const toggleColorScheme = () => {

@@ -9,12 +9,7 @@ interface ModalProps {
   size?: "sm" | "md" | "lg";
 }
 
-const Modal = ({
-  onClose,
-  children,
-  title,
-  size,
-}: ModalProps) => {
+const Modal = ({ onClose, children, title, size }: ModalProps) => {
   const maxWidth =
     size === "sm" ? 320 : size === "md" ? 420 : size === "lg" ? 520 : 320;
 

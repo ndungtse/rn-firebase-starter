@@ -1,17 +1,17 @@
-import React from 'react';
-import { Pressable, Text } from 'react-native';
+import React from "react";
+import { Pressable, Text } from "react-native";
 
 interface ButtonProps extends React.ComponentProps<typeof Pressable> {
-    color?: string;
+  color?: string;
 }
 
 const Button = (props: ButtonProps) => {
-    const { color, children, disabled, ...rest } = props
+  const { color, children, disabled, ...rest } = props;
   return (
     <Pressable {...rest}>
       <Text>Button</Text>
     </Pressable>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;
